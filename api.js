@@ -1,14 +1,6 @@
-const express = require("express");
-const path = require("path");
-const app = express();
-const port = 3000;
-
-// Serve the static index.html file
-app.use(express.static(path.join(__dirname)));
-
-// API route
-app.get("/api", (req, res) => {
-  const notion = {
+// api.js
+exports.handler = async (event, context) => {
+  const data = {
     message: "Server hosted successfully",
     subject: "Web application development",
     students: [
@@ -18,10 +10,8 @@ app.get("/api", (req, res) => {
     ],
   };
 
-  res.json(notion);
-});
-
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+  return {
+    statusCode: 200,
+    body: JSON.stringify(data),
+  };
+};
