@@ -1,7 +1,5 @@
 [build]
-  publish = "public"  # Adjust if necessary
+  functions = "netlify/functions"
 
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api"
-  status = 200
+[dev]
+  functions = "netlify/functions"

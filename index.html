@@ -4,65 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Web Application Development</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        padding: 20px;
-        background-color: #f4f4f4;
-      }
-      h1 {
-        color: #333;
-      }
-      #loading {
-        font-size: 18px;
-        color: #007bff;
-      }
-      .error {
-        color: red;
-      }
-    </style>
   </head>
   <body>
     <h1>Welcome to Web Application Development</h1>
-    <div id="loading">Loading...</div>
-    <div id="content" style="display: none"></div>
-    <div id="error" class="error" style="display: none"></div>
+    <div id="content"></div>
 
     <script>
       // Fetch data from the API and display it in the HTML
       fetch("/api")
         .then((response) => {
           if (!response.ok) {
-            throw new Error("Network response was not ok");
+            throw new Error(`HTTP error! status: ${response.status}`);
           }
           return response.json();
         })
         .then((data) => {
-          const loadingDiv = document.getElementById("loading");
           const contentDiv = document.getElementById("content");
-          loadingDiv.style.display = "none";
-          contentDiv.style.display = "block";
           contentDiv.innerHTML = `
-                    <p><strong>Message:</strong> ${data.message}</p>
-                    <p><strong>Subject:</strong> ${data.subject}</p>
-                    <h2>Students:</h2>
-                    <ul>
-                        ${data.students
-                          .map(
-                            (student) =>
-                              `<li>${student.id}: ${student.name}</li>`
-                          )
-                          .join("")}
-                    </ul>`;
+            <p><strong>Message:</strong> ${data.message}</p>
+            <p><strong>Subject:</strong> ${data.subject}</p>
+            <h2>Students:</h2>
+            <ul>
+              ${data.students
+                .map((student) => `<li>${student.id}: ${student.name}</li>`)
+                .join("")}
+            </ul>`;
         })
         .catch((error) => {
-          const loadingDiv = document.getElementById("loading");
-          const errorDiv = document.getElementById("error");
-          loadingDiv.style.display = "none";
-          errorDiv.style.display = "block";
-          errorDiv.textContent = "Error fetching data: " + error.message;
           console.error("Error fetching data:", error);
+          document.getElementById("content").innerHTML =
+            "<p>There was an error fetching data from the API.</p>";
         });
     </script>
   </body>
