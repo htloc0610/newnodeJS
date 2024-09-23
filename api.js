@@ -1,16 +1,14 @@
-// Import the express module
 const express = require("express");
-
-// Create an express application
+const path = require("path");
 const app = express();
-
-// Define the port where the server will listen
 const port = 3000;
 
-// Define the route for the API
+// Serve the static index.html
+app.use(express.static(path.join(__dirname)));
+
+// API route to return the JSON data
 app.get("/api", (req, res) => {
-  // Data to be returned by the API
-  const data = {
+  const notion = {
     message: "Server hosted successfully",
     subject: "Web application development",
     students: [
@@ -19,11 +17,10 @@ app.get("/api", (req, res) => {
       { id: "22120186", name: "Huỳnh Tấn Lộc" },
     ],
   };
-  // Send the data as a JSON response
-  res.json(data);
+  res.json(notion);
 });
 
-// Start the server and listen on the specified port
+// Start the server
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}/api`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
